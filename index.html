@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedido Especial de Amor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            font-family: 'Pacifico', cursive;
+            overflow: hidden;
+        }
+
+        #pergunta {
+            font-size: 36px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .botao-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .botao {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 20px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #sim {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #nao {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .botao:hover {
+            transform: scale(1.1);
+        }
+
+        .coracao {
+            position: absolute;
+            font-size: 30px;
+            opacity: 0.7;
+            animation: 
+                float 2s infinite, 
+                pulse 1s infinite alternate;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+
+        @keyframes pulse {
+            from { transform: scale(1); }
+            to { transform: scale(1.2); }
+        }
+
+        .confete {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255,255,255,0.7);
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="pergunta">Quer sair Comigo?</div>
+    
+    <div class="botao-container">
+        <button id="sim" class="botao">Sim</button>
+        <button id="nao" class="botao">Não</button>
+    </div>
+
+    <script>
+        const simButton = document.getElementById('sim');
+        const naoButton = document.getElementById('nao');
+
+        // Efeito de movimento do botão "Não"
+        naoButton.addEventListener('mouseover', () => {
+            const maxX = window.innerWidth - naoButton.offsetWidth;
+            const maxY = window.innerHeight - naoButton.offsetHeight;
+            
+            const x = Math.random() * maxX;
+            const y = Math.random() * maxY;
+            
+            naoButton.style.position = 'absolute';
+            naoButton.style.left = `${x}px`;
+            naoButton.style.top = `${y}px`;
+        });
+
+        // Efeito de corações
+        function criarCoracoes() {
+            for (let i = 0; i < 50; i++) {
+                const coracao = document.createElement('div');
+                coracao.className = 'coracao';
+                coracao.innerHTML = '❤️';
+                
+                coracao.style.left = `${Math.random() * window.innerWidth}px`;
+                coracao.style.top = `${Math.random() * window.innerHeight}px`;
+                coracao.style.animationDelay = `${Math.random() * 2}s`;
+                
+                document.body.appendChild(coracao);
+                
+                setTimeout(() => {
+                    coracao.remove();
+                }, 4000);
+            }
+        }
+
+        // Efeito de confete
+        function criarConfete() {
+            for (let i = 0; i < 100; i++) {
+                const confete = document.createElement('div');
+                confete.className = 'confete';
+                
+                confete.style.left = `${Math.random() * window.innerWidth}px`;
+                confete.style.top = `${Math.random() * window.innerHeight}px`;
+                confete.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                
+                document.body.appendChild(confete);
+                
+                const animacao = confete.animate([
+                    { transform: 'translate(0, 0) rotate(0deg)' },
+                    { transform: `translate(${(Math.random() - 0.5) * 500}px, ${window.innerHeight}px) rotate(${Math.random() * 360}deg)` }
+                ], {
+                    duration: 3000,
+                    easing: 'cubic-bezier(0.25, 0.1, 0.25, 1)'
+                });
+                
+                animacao.onfinish = () => confete.remove();
+            }
+        }
+
+        // Evento para o botão "Sim"
+        simButton.addEventListener('click', () => {
+            criarCoracoes();
+            criarConfete();
+            alert('Que alegria! Você me deixou muito feliz! 💖');
+        });
+
+        // Evento para o botão "Não"
+        naoButton.addEventListener('click', () => {
+            alert('Não desista de mim! 💔');
+        });
+    </script>
+</body>
+</html>
